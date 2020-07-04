@@ -4,7 +4,7 @@ MwStatistics allows you to easily calculate seven common statistics on time seri
 
 ## Getting Started
 
-Submitting to CRAN shortly. Fingers crossed!
+May submit to CRAN. For now, refer to "Installing" to access the function.
 
 ### Usage
 
