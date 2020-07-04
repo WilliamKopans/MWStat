@@ -1,0 +1,5 @@
+importFrom("stats", "coef", "cor", "filter", "lm", "sd", "t.test")
+importFrom("utils", "View", "data","globalVariables")
+importFrom("tidyselect", "all_of")
+importFrom("dplyr", `%>%`)
+export("MwStatistics")

@@ -1,0 +1,15 @@
+Package: MwStatistics
+Type: Package
+Title: Moving Window Statistic Calculations
+Version: 0.1.0
+Author: William Kopans
+Maintainer: William Kopans <wkopans123@gmail.com>
+Description: Easily Calculate Common Statistics on Time Series Data Using a Moving Window.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.0
+Imports: ggplot2, stats, tidyselect, dplyr
+NeedsCompilation: no
+Packaged: 2020-06-04 21:32:56 UTC; williamkopans
+Built: R 3.6.2; ; 2020-06-08 13:06:05 UTC; unix
