@@ -3,7 +3,7 @@ Type: Package
 Title: Moving Window Statistic Calculations
 Version: 0.1.0
 Author: William Kopans
-Maintainer: William Kopans <wkopans123@gmail.com>
+Maintainer: William Kopans <william.kopans@wheelerschool.org>
 Description: Easily calculate common statistics on time series data using a moving window.
 License: MIT + file LICENSE
 Encoding: UTF-8
