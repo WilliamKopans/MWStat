@@ -70,7 +70,7 @@ Arguments:
 
 ### Installing
 
-Until I submit to CRAN (if I choose to), the most reliable way to use this package is to simply download it from GitHub. Unfortunately, I have not quite figured out how to install directly via GitHub, so if you are willing to help out in the reguard, please let me know! My email is William.Kopans@Wheelergmail.org
+Until I submit to CRAN (if I choose to), the most reliable way to use this package is to simply download it from GitHub and install locally. Unfortunately, I have not quite figured out how to install directly into R via GitHub, so if you are willing to help out in the reguard, please let me know! My email is William.Kopans@Wheelergmail.org
 
 
 You can check that it installed correctly using:
