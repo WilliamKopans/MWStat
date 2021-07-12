@@ -19,9 +19,11 @@
 #' @export
 #' @import ggplot2
 #' @import dplyr
+#' @import lmodel2
 utils::globalVariables(c("MwStatistics"))
 library(dplyr)
 library(ggplot2)
+library(lmodel2)
 
 MwStatistics <- function (dat = NULL,TimeVarCol = 1, ColA = 2, ColB = 3, win = NULL, stat = NULL, overlap = 0.0, genplot = TRUE, genDataFrame = FALSE)
 {
@@ -84,7 +86,11 @@ MwStatistics <- function (dat = NULL,TimeVarCol = 1, ColA = 2, ColB = 3, win = N
     }
     else if (stat == "Slope") { 
       StatRec[nrow(StatRec) + 1,] = c ((lm(formula = TestCase[,2] ~ TestCase[,3])$coefficients)[2])
-    } else {
+    } 
+    else if (stat == "OLS") { # ordinary least squares (reduced major axis regression)
+      lmodel2::lmodel2(formula, data = NULL, range.y=NULL, range.x=NULL, nperm=0)
+    } 
+    else {
       print("Please choose a statistic")
       break
     }
