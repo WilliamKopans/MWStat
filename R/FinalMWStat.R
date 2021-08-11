@@ -93,24 +93,24 @@ MwStatistics <- function (dat = NULL,TimeVarCol = 1, ColA = 2, ColB = 3, win = N
     else if (stat == "OLS") { # ordinary least squares (reduced major axis regression)
 
 
-#Regression Results (OLS)
+      #Regression Results (OLS)
       StatRec[nrow(StatRec) + 1,1] = c (lmodel2::lmodel2(TestCase[,2] ~ TestCase[,3], data = TestCase, range.y=NULL, range.x=NULL, nperm=99)[[3]][1,][2]) #OLS intercept
       StatRec[nrow(StatRec),2] = c (lmodel2::lmodel2(TestCase[,2] ~ TestCase[,3], data = TestCase, range.y=NULL, range.x=NULL, nperm=99)[[3]][1,][3]) #OLS Slope
       StatRec[nrow(StatRec),3] = c (lmodel2::lmodel2(TestCase[,2] ~ TestCase[,3], data = TestCase, range.y=NULL, range.x=NULL, nperm=99)[[3]][1,][4]) # OLS Angle (Degrees)
 
-#Regression Results (MA):
+      #Regression Results (MA):
       StatRec[nrow(StatRec),4] = c (lmodel2::lmodel2(TestCase[,2] ~ TestCase[,3], data = TestCase, range.y=NULL, range.x=NULL, nperm=99)[[3]][2,2]) #MA Intercept
       StatRec[nrow(StatRec),5] = c (lmodel2::lmodel2(TestCase[,2] ~ TestCase[,3], data = TestCase, range.y=NULL, range.x=NULL, nperm=99)[[3]][2,3]) #MA Slope
       StatRec[nrow(StatRec),6] = c (lmodel2::lmodel2(TestCase[,2] ~ TestCase[,3], data = TestCase, range.y=NULL, range.x=NULL, nperm=99)[[3]][2,4]) #MA Angle (Degrees)
       StatRec[nrow(StatRec),7] = c (lmodel2::lmodel2(TestCase[,2] ~ TestCase[,3], data = TestCase, range.y=NULL, range.x=NULL, nperm=99)[[3]][2,5]) #MA P-Perm (1-Tailed)
 
-#Confidence Intervals (OLS)
+      #Confidence Intervals (OLS)
       StatRec[nrow(StatRec),8] = c (lmodel2::lmodel2(TestCase[,2] ~ TestCase[,3], data = TestCase, range.y=NULL, range.x=NULL, nperm=99)[[4]][1,][2]) #OLS 2.5% intercept
       StatRec[nrow(StatRec),9] = c (lmodel2::lmodel2(TestCase[,2] ~ TestCase[,3], data = TestCase, range.y=NULL, range.x=NULL, nperm=99)[[4]][1,][3]) #OLS 97.5% intercept
       StatRec[nrow(StatRec),10] = c (lmodel2::lmodel2(TestCase[,2] ~ TestCase[,3], data = TestCase, range.y=NULL, range.x=NULL, nperm=99)[[4]][1,][4]) #OLS 2.5 Slope
       StatRec[nrow(StatRec),11] = c (lmodel2::lmodel2(TestCase[,2] ~ TestCase[,3], data = TestCase, range.y=NULL, range.x=NULL, nperm=99)[[4]][1,][5]) #OLS 97.5 Slope
 
-#Confidence Intervals (MA) - Lmodel2 is not working for this - lmodel2(DummyData[,1] ~ DummyData[,2], data = DummyData, range.y=NULL, range.x=NULL, nperm=99)[[4]][2,]
+      #Confidence Intervals (MA) - Lmodel2 is not working for this - lmodel2(DummyData[,1] ~ DummyData[,2], data = DummyData, range.y=NULL, range.x=NULL, nperm=99)[[4]][2,]
       StatRec[nrow(StatRec),12] = c (lmodel2::lmodel2(TestCase[,2] ~ TestCase[,3], data = TestCase, range.y=NULL, range.x=NULL, nperm=99)[[4]][2,][2]) #MA 2.5% intercept
       StatRec[nrow(StatRec),13] = c (lmodel2::lmodel2(TestCase[,2] ~ TestCase[,3], data = TestCase, range.y=NULL, range.x=NULL, nperm=99)[[4]][2,][3]) #MA 97.5% intercept
       StatRec[nrow(StatRec),14] = c (lmodel2::lmodel2(TestCase[,2] ~ TestCase[,3], data = TestCase, range.y=NULL, range.x=NULL, nperm=99)[[4]][2,][4]) #MA 2.5 Slope
@@ -163,19 +163,27 @@ MwStatistics <- function (dat = NULL,TimeVarCol = 1, ColA = 2, ColB = 3, win = N
 
   if (genDataFrame == T){ #If you want to view the dataframe here is your option!
     View(StatRecDF) #This is great if you don't want to rely solely on your eyes and the graph
+    message("Remember to add .csv end to file")
+
+    tryCatch({
+      try(write.csv(StatRecDF,file = file.choose(new = T)), silent = TRUE)
+    }, interrupt = function(x) {
+      message("Something went wrong")
+    })
+
   }
 
   if (genplot == T && stat != "OLS") { #Generates the plot
     ggplot2::ggplot(data=StatRecDF, mapping = ggplot2::aes(x=TimeVarColRec,y=StatRec))+
       ggplot2::geom_line(color = "#0e4142")+
-      ggplot2::labs(y = stat,x="Time Variable",title = "Moving Window Analysis")
+      ggplot2::labs(y = stat,x=names(dat)[TimeVarCol],title = "Moving Window Analysis")
+    #ggplot2::labs(y = stat,x="Time Variable",title = "Moving Window Analysis")
     #If you want to be able to share the plot directly,
     #I can have the type of time variable as an input
     #to the function which is filled in on the X-Axis rather than "Time Varaible"
   }
 
 }
-
 #Examples for each statistic:
 #MwStatistics(dat = TotalPiecewiseInterp, win = 2, TimeVarCol = 1, ColA = 2, ColB = 3, stat = "Correlation", genplot = T, genDataFrame = F, overlap = 0.5)
 #MwStatistics(dat = TotalPiecewiseInterp, win = 2, TimeVarCol = 1, ColA = 2, ColB = 3, stat = "SErrorIntercept", genplot = T, genDataFrame = F, overlap = 0.5)
