@@ -92,29 +92,33 @@ MwStatistics <- function (dat = NULL,TimeVarCol = 1, ColA = 2, ColB = 3, win = N
     }
     else if (stat == "OLS") { # ordinary least squares (reduced major axis regression)
 
+      SavedOLS <- lmodel2::lmodel2(TestCase[,2] ~ TestCase[,3], data = TestCase, range.y=NULL, range.x=NULL, nperm=98)
 
       #Regression Results (OLS)
-      StatRec[nrow(StatRec) + 1,1] = c (lmodel2::lmodel2(TestCase[,2] ~ TestCase[,3], data = TestCase, range.y=NULL, range.x=NULL, nperm=98)[[3]][1,][2]) #OLS intercept
-      StatRec[nrow(StatRec),2] = c (lmodel2::lmodel2(TestCase[,2] ~ TestCase[,3], data = TestCase, range.y=NULL, range.x=NULL, nperm=98)[[3]][1,][3]) #OLS Slope
-      StatRec[nrow(StatRec),3] = c (lmodel2::lmodel2(TestCase[,2] ~ TestCase[,3], data = TestCase, range.y=NULL, range.x=NULL, nperm=98)[[3]][1,][4]) # OLS Angle (Degrees)
+      StatRec[nrow(StatRec) + 1,1] = c (SavedOLS[[3]][1,][2]) #OLS intercept
+      StatRec[nrow(StatRec),2] = c (SavedOLS[[3]][1,][3]) #OLS Slope
+      StatRec[nrow(StatRec),3] = c (SavedOLS[[3]][1,][4]) # OLS Angle (Degrees)
 
       #Regression Results (MA):
-      StatRec[nrow(StatRec),4] = c (lmodel2::lmodel2(TestCase[,2] ~ TestCase[,3], data = TestCase, range.y=NULL, range.x=NULL, nperm=98)[[3]][2,2]) #MA Intercept
-      StatRec[nrow(StatRec),5] = c (lmodel2::lmodel2(TestCase[,2] ~ TestCase[,3], data = TestCase, range.y=NULL, range.x=NULL, nperm=98)[[3]][2,3]) #MA Slope
-      StatRec[nrow(StatRec),6] = c (lmodel2::lmodel2(TestCase[,2] ~ TestCase[,3], data = TestCase, range.y=NULL, range.x=NULL, nperm=98)[[3]][2,4]) #MA Angle (Degrees)
-      StatRec[nrow(StatRec),7] = c (lmodel2::lmodel2(TestCase[,2] ~ TestCase[,3], data = TestCase, range.y=NULL, range.x=NULL, nperm=98)[[3]][2,5]) #MA P-Perm (1-Tailed)
+      StatRec[nrow(StatRec),4] = c (SavedOLS[[3]][2,2]) #MA Intercept
+      StatRec[nrow(StatRec),5] = c (SavedOLS[[3]][2,3]) #MA Slope
+      StatRec[nrow(StatRec),6] = c (SavedOLS[[3]][2,4]) #MA Angle (Degrees)
+      StatRec[nrow(StatRec),7] = c (SavedOLS[[3]][2,5]) #MA P-Perm (1-Tailed)
 
       #Confidence Intervals (OLS)
-      StatRec[nrow(StatRec),8] = c (lmodel2::lmodel2(TestCase[,2] ~ TestCase[,3], data = TestCase, range.y=NULL, range.x=NULL, nperm=98)[[4]][1,][2]) #OLS 2.5% intercept
-      StatRec[nrow(StatRec),9] = c (lmodel2::lmodel2(TestCase[,2] ~ TestCase[,3], data = TestCase, range.y=NULL, range.x=NULL, nperm=98)[[4]][1,][3]) #OLS 97.5% intercept
-      StatRec[nrow(StatRec),10] = c (lmodel2::lmodel2(TestCase[,2] ~ TestCase[,3], data = TestCase, range.y=NULL, range.x=NULL, nperm=98)[[4]][1,][4]) #OLS 2.5 Slope
-      StatRec[nrow(StatRec),11] = c (lmodel2::lmodel2(TestCase[,2] ~ TestCase[,3], data = TestCase, range.y=NULL, range.x=NULL, nperm=98)[[4]][1,][5]) #OLS 97.5 Slope
+      StatRec[nrow(StatRec),8] = c (SavedOLS[[4]][1,][2]) #OLS 2.5% intercept
+      StatRec[nrow(StatRec),9] = c (SavedOLS[[4]][1,][3]) #OLS 97.5% intercept
+      StatRec[nrow(StatRec),10] = c (SavedOLS[[4]][1,][4]) #OLS 2.5 Slope
+      StatRec[nrow(StatRec),11] = c (SavedOLS[[4]][1,][5]) #OLS 97.5 Slope
 
       #Confidence Intervals (MA) - Lmodel2 is not working for this - lmodel2(DummyData[,1] ~ DummyData[,2], data = DummyData, range.y=NULL, range.x=NULL, nperm=98)[[4]][2,]
-      StatRec[nrow(StatRec),12] = c (lmodel2::lmodel2(TestCase[,2] ~ TestCase[,3], data = TestCase, range.y=NULL, range.x=NULL, nperm=98)[[4]][2,][2]) #MA 2.5% intercept
-      StatRec[nrow(StatRec),13] = c (lmodel2::lmodel2(TestCase[,2] ~ TestCase[,3], data = TestCase, range.y=NULL, range.x=NULL, nperm=98)[[4]][2,][3]) #MA 97.5% intercept
-      StatRec[nrow(StatRec),14] = c (lmodel2::lmodel2(TestCase[,2] ~ TestCase[,3], data = TestCase, range.y=NULL, range.x=NULL, nperm=98)[[4]][2,][4]) #MA 2.5 Slope
-      StatRec[nrow(StatRec),15] = c (lmodel2::lmodel2(TestCase[,2] ~ TestCase[,3], data = TestCase, range.y=NULL, range.x=NULL, nperm=98)[[4]][2,][5]) #MA 97.5 Slope
+      StatRec[nrow(StatRec),12] = c (SavedOLS[[4]][2,][2]) #MA 2.5% intercept
+      StatRec[nrow(StatRec),13] = c (SavedOLS[[4]][2,][3]) #MA 97.5% intercept
+      StatRec[nrow(StatRec),14] = c (SavedOLS[[4]][2,][4]) #MA 2.5 Slope
+      StatRec[nrow(StatRec),15] = c (SavedOLS[[4]][2,][5]) #MA 97.5 Slope
+
+      #Correlation Coefficient
+      StatRec[nrow(StatRec),16] = c (cor(TestCase[2],TestCase[3]))
 
 
 
@@ -157,7 +161,7 @@ MwStatistics <- function (dat = NULL,TimeVarCol = 1, ColA = 2, ColB = 3, win = N
     names(StatRecDF)[10] <- "OLS 97.5% intercept"; names(StatRecDF)[11] <- "OLS 2.5 Slope";
     names(StatRecDF)[12] <- "OLS 97.5 Slope"; names(StatRecDF)[13] <- "MA 2.5 intercept";
     names(StatRecDF)[14] <- "MA 97.5 interpcept"; names(StatRecDF)[15] <- "MA 2.5 slope";
-    names(StatRecDF)[16] <- "MA 97.5 slope";
+    names(StatRecDF)[16] <- "MA 97.5 slope"; names(StatRecDF)[17] <- "Correlation Coefficient";
 
   }
 
