@@ -170,7 +170,7 @@ MwStatistics <- function (dat = NULL,TimeVarCol = 1, ColA = 2, ColB = 3, win = N
     message("Remember to add .csv end to file")
 
     tryCatch({
-      try(write.csv(StatRecDF,file = file.choose(new = T)), silent = TRUE)
+      try(write.csv(StatRecDF,file = file.choose(new = T), row.names=FALSE), silent = TRUE)
     }, interrupt = function(x) {
       message("Something went wrong")
     })
