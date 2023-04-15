@@ -43,9 +43,8 @@ MwStatistics <- function (dat = NULL,TimeVarCol = 1, ColA = 2, ColB = 3, win = N
   TimeVarColRec <- data.frame(Value = 1) #creating a dataframe to store the timeframe
   #It starts with the first cell being one, but that is later removed
 
-  data %>% filter(!is.na(TimeVarCol)) #removing any NAs
-  data %>% filter(!is.na(ColA))
-  data %>% filter(!is.na(ColB))
+  data <- data %>% filter(!is.na(TimeVarCol), !is.na(ColA), !is.na(ColB))
+
 
   NewWinStart <- min(data[,1]) #creating the first window
   NewWinEnd <- NewWinStart + win
@@ -60,7 +59,7 @@ MwStatistics <- function (dat = NULL,TimeVarCol = 1, ColA = 2, ColB = 3, win = N
 
     if(genDataFrame == T){
       if (nrow(TestCase) == 0) {
-        print(paste0("Window spanning from ",NewWinStart," to ", NewWinEnd, " contains no values"))
+        message(paste0("Window spanning from ", NewWinStart, " to ", NewWinEnd, " contains no values"))
       } #added feature that will tell you when you have an empty window
     }
     #print(paste0("Window spans from ",NewWinStart," to ", NewWinEnd)) #this can be commented out but will say where your windows are
